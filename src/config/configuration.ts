@@ -1,4 +1,4 @@
-export const configuration  = () => ({
+export const configuration = () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     type: process.env.DB_TYPE || 'postgres',
@@ -9,5 +9,5 @@ export const configuration  = () => ({
     username: process.env.DB_USER || 'username',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_NAME || 'dbname',
-  }
+  },
 });
