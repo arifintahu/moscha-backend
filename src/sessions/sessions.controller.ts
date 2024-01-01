@@ -1,4 +1,10 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Post,
+} from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 
@@ -7,8 +13,13 @@ export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Post()
-  async create(@Body() createSessionDto: CreateSessionDto) {
-    this.sessionsService.create(createSessionDto);
+  public async create(@Body() body: CreateSessionDto): Promise<{ id: string }> {
+    const result = await this.sessionsService.create(body);
+    if (!result.id) {
+      throw new InternalServerErrorException('NotCreatedData');
+    }
+
+    return { id: result.id };
   }
 
   @Get()
