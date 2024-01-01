@@ -16,7 +16,7 @@ import { configuration } from './config/configuration';
     // Database
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        ...config.get<TypeOrmModuleOptions>('db'),
+        ...config.get<TypeOrmModuleOptions>('database'),
       }),
       inject: [ConfigService],
     }),
