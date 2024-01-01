@@ -1,4 +1,4 @@
-import { Session } from '../entity';
+import { Chain, Session } from '../entity';
 
 export const configuration = () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
@@ -9,7 +9,7 @@ export const configuration = () => ({
     username: process.env.DB_USER || 'username',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_NAME || 'dbname',
-    entities: [Session],
+    entities: [Chain, Session],
     synchronize: true,
     logging: true,
   },

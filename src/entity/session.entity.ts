@@ -1,16 +1,34 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Chain } from '.';
 
-@Entity()
+@Entity({ name: 'session' })
 export class Session {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-  walletAddress: string;
+  address: string;
 
   @Column()
   chainId: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt: Date;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  expiredAt: Date;
+
+  @ManyToOne((type) => Chain)
+  @JoinColumn({ name: 'chainId', referencedColumnName: 'id' })
+  chain: Chain;
 }
