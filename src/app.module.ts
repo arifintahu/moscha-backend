@@ -12,6 +12,7 @@ import { configuration } from './config/configuration';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
+      envFilePath: '.env',
     }),
     // Database
     TypeOrmModule.forRootAsync({

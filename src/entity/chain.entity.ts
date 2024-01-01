@@ -5,7 +5,7 @@ export enum ChainNetwork {
   TESTNET = 'testnet',
 }
 
-@Entity({ name: 'chain' })
+@Entity({ name: 'chains' })
 export class Chain {
   @PrimaryColumn()
   id: string;
@@ -17,10 +17,10 @@ export class Chain {
   })
   network: ChainNetwork;
 
-  @Column()
+  @Column({ nullable: true })
   rpcEndpoint: string;
 
-  @Column()
+  @Column({ nullable: true })
   restEndpoint: string;
 
   @CreateDateColumn({
