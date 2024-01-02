@@ -17,12 +17,12 @@ export class Session {
   address: string;
 
   @CreateDateColumn({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamptz' })
   expiredAt: Date;
 
   @OneToOne(() => Chain)

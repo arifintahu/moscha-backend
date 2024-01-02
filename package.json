@@ -20,9 +20,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:create": "npx typeorm-ts-node-commonjs migration:create",
     "migration:show": "npx typeorm-ts-node-commonjs migration:show -d src/config/migration.config.ts",
-    "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d src/config/migration.config.ts",
-    "migration:up": "npx typeorm-ts-node-commonjs migration:run -d src/config/migration.config.ts",
-    "migration:down": "npx typeorm-ts-node-commonjs migration:revert -d src/config/migration.config.ts"
+    "migration:generate": "nest build && npx typeorm-ts-node-commonjs migration:generate -d src/config/migration.config.ts",
+    "migration:up": "nest build && npx typeorm-ts-node-commonjs migration:run -d src/config/migration.config.ts",
+    "migration:down": "nest build && npx typeorm-ts-node-commonjs migration:revert -d src/config/migration.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

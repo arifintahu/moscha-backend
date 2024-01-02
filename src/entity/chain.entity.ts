@@ -24,7 +24,7 @@ export class Chain {
   restEndpoint: string;
 
   @CreateDateColumn({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
