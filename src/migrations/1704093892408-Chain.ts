@@ -5,7 +5,7 @@ export class Chain1704093892408 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `INSERT INTO chains (id, network) VALUES ('thata-testnet-001', 'testnet');`,
+      `INSERT INTO chains (id, network) VALUES ('theta-testnet-001', 'testnet');`,
     );
     await queryRunner.query(
       `INSERT INTO chains (id, network) VALUES ('osmo-test-4', 'testnet');`,

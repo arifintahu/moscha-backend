@@ -1,4 +1,5 @@
-export interface Session {
-  address: string;
+import { Session } from '../../entity';
+
+export interface CreateSessionObj extends Session {
   chainId: string;
 }
