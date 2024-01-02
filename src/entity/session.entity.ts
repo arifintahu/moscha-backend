@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Chain } from './chain.entity';
 
 @Entity({ name: 'sessions' })
 export class Session {
@@ -13,19 +16,16 @@ export class Session {
   @Column()
   address: string;
 
-  @Column()
-  chainId: string;
-
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  @Column({ type: 'timestamp' })
   expiredAt: Date;
 
-  // @ManyToOne((type) => Chain)
-  // @JoinColumn({ name: 'chainId', referencedColumnName: 'id' })
-  // chain: Chain;
+  @OneToOne(() => Chain)
+  @JoinColumn()
+  chain: Chain;
 }
