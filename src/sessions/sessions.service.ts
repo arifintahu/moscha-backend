@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from '../entity';
 import { Repository } from 'typeorm';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class SessionsService {
@@ -11,7 +12,10 @@ export class SessionsService {
   ) {}
 
   public async create(session: Partial<Session>): Promise<Session> {
-    return this.sessionsRepository.save(session);
+    return this.sessionsRepository.save({
+      ...session,
+      expiredAt: dayjs().add(1, 'hour').format(),
+    });
   }
 
   getHello(): string {
