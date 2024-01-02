@@ -4,6 +4,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { configuration } from './config/configuration';
 import { SessionsModule } from './sessions/sessions.module';
+import { ChainsModule } from './chains/chains.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SessionsModule } from './sessions/sessions.module';
 
     // Modules
     SessionsModule,
+    ChainsModule,
   ],
 })
 export class AppModule {}
