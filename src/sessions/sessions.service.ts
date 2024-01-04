@@ -30,6 +30,22 @@ export class SessionsService {
     });
   }
 
+  public async getValidSession(id: string): Promise<Session | null> {
+    const session = await this.sessionsRepository.findOneBy({
+      id,
+    });
+
+    if (!session) {
+      return null;
+    }
+
+    if (dayjs().isAfter(session.expiredAt)) {
+      return null;
+    }
+
+    return session;
+  }
+
   getHello(): string {
     return 'Hello World!';
   }

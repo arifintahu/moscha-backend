@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { configuration } from './config/configuration';
-import { SessionsModule } from './sessions/sessions.module';
-import { ChainsModule } from './chains/chains.module';
+import { SessionMiddleware } from './common/middleware';
+import { SessionsModule } from './sessions';
+import { ChainsModule } from './chains';
+import { ChatsModule, ChatsController } from './chats';
 
 @Module({
   imports: [
@@ -25,6 +27,11 @@ import { ChainsModule } from './chains/chains.module';
     // Modules
     SessionsModule,
     ChainsModule,
+    ChatsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(SessionMiddleware).forRoutes(ChatsController);
+  }
+}

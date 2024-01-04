@@ -8,5 +8,6 @@ import { Chain, Session } from '../entity';
   imports: [TypeOrmModule.forFeature([Session, Chain])],
   controllers: [SessionsController],
   providers: [SessionsService],
+  exports: [SessionsService],
 })
 export class SessionsModule {}
