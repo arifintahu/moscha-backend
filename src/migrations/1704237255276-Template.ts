@@ -3,12 +3,17 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 const templates = [
   {
     keyword: 'greeting',
-    text: 'Hello world!',
+    text: 'Hello! I am Moscha. Type `help` for more information',
     action: null,
   },
   {
     keyword: 'help',
-    text: 'What I can help you',
+    text: 'Here you can do several things like check balances of your wallet and transfer token',
+    action: null,
+  },
+  {
+    keyword: 'default',
+    text: 'Command can be processed. Type `help` for more information',
     action: null,
   },
 ];
