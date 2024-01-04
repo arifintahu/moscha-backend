@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Chain } from './chain.entity';
@@ -25,7 +25,7 @@ export class Session {
   @Column({ type: 'timestamptz' })
   expiredAt: Date;
 
-  @OneToOne(() => Chain)
+  @ManyToOne(() => Chain)
   @JoinColumn()
   chain: Chain;
 }
