@@ -8,20 +8,20 @@ import {
 } from 'typeorm';
 import { Action } from './action.entity';
 
-@Entity({ name: 'templates' })
-export class Template {
+@Entity({ name: 'action_fields' })
+export class ActionField {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  keyword: string;
-
-  @Column({ nullable: true })
-  text: string;
 
   @ManyToOne(() => Action)
   @JoinColumn()
   action: Action;
+
+  @Column()
+  field: string;
+
+  @Column({ default: false })
+  isPrompted: boolean;
 
   @CreateDateColumn({
     type: 'timestamptz',

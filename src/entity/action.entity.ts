@@ -2,26 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Action } from './action.entity';
 
-@Entity({ name: 'templates' })
-export class Template {
+@Entity({ name: 'actions' })
+export class Action {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  keyword: string;
-
-  @Column({ nullable: true })
-  text: string;
-
-  @ManyToOne(() => Action)
-  @JoinColumn()
-  action: Action;
+  action: string;
 
   @CreateDateColumn({
     type: 'timestamptz',

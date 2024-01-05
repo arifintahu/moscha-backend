@@ -4,26 +4,32 @@ const templates = [
   {
     keyword: 'greeting',
     text: 'Hello! I am Moscha. Type `help` for more information',
-    action: null,
+    actionId: null,
   },
   {
     keyword: 'help',
     text: 'Here you can do several things like check balances of your wallet and transfer token',
-    action: null,
+    actionId: null,
   },
   {
     keyword: 'default',
     text: 'Command can be processed. Type `help` for more information',
-    action: null,
+    actionId: null,
   },
 ];
 
 export class Template1704237255276 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     for (const t of templates) {
-      await queryRunner.query(
-        `INSERT INTO templates (keyword, text, action) VALUES ('${t.keyword}', '${t.text}', '${t.action}');`,
-      );
+      if (t.actionId) {
+        await queryRunner.query(
+          `INSERT INTO templates (keyword, text, actionId) VALUES ('${t.keyword}', '${t.text}', '${t.actionId}');`,
+        );
+      } else {
+        await queryRunner.query(
+          `INSERT INTO templates (keyword, text) VALUES ('${t.keyword}', '${t.text}');`,
+        );
+      }
     }
   }
 
