@@ -18,12 +18,13 @@ export class Chain {
   network: ChainNetwork;
 
   @Column({ nullable: true })
-  rpcEndpoint: string;
+  rpc: string;
 
   @Column({ nullable: true })
-  restEndpoint: string;
+  rest: string;
 
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })

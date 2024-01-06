@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -13,10 +14,14 @@ export class Execution {
   id: string;
 
   @ManyToOne(() => Session)
-  @JoinColumn()
+  @JoinColumn({ name: 'session_id' })
   session: Session;
 
+  @Column({ name: 'session_id', nullable: true })
+  sessionId: string;
+
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })

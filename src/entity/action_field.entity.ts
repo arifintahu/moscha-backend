@@ -14,16 +14,20 @@ export class ActionField {
   id: number;
 
   @ManyToOne(() => Action)
-  @JoinColumn()
+  @JoinColumn({ name: 'action_id' })
   action: Action;
+
+  @Column({ name: 'action_id', nullable: true })
+  actionId: number;
 
   @Column()
   field: string;
 
-  @Column({ default: false })
+  @Column({ name: 'is_prompted', default: false })
   isPrompted: boolean;
 
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })

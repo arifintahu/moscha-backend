@@ -16,16 +16,23 @@ export class Session {
   @Column()
   address: string;
 
+  @ManyToOne(() => Chain)
+  @JoinColumn({ name: 'chain_id' })
+  chain: Chain;
+
+  @Column({ name: 'chain_id', nullable: true })
+  chainId: string;
+
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz' })
+  @Column({
+    name: 'expired_at',
+    type: 'timestamptz',
+  })
   expiredAt: Date;
-
-  @ManyToOne(() => Chain)
-  @JoinColumn()
-  chain: Chain;
 }

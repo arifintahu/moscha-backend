@@ -16,23 +16,31 @@ export class ExecutionItem {
   id: number;
 
   @ManyToOne(() => Execution)
-  @JoinColumn()
+  @JoinColumn({ name: 'execution_id' })
   execution: Execution;
 
+  @Column({ name: 'execution_id', nullable: true })
+  executionId: string;
+
   @ManyToOne(() => ActionField)
-  @JoinColumn()
+  @JoinColumn({ name: 'action_field_id' })
   actionField: ActionField;
+
+  @Column({ name: 'action_field_id', nullable: true })
+  actionFieldId: number;
 
   @Column()
   value: string;
 
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
+    name: 'updated_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })

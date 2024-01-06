@@ -20,10 +20,14 @@ export class Template {
   text: string;
 
   @ManyToOne(() => Action)
-  @JoinColumn()
+  @JoinColumn({ name: 'action_id' })
   action: Action;
 
+  @Column({ name: 'action_id', nullable: true })
+  actionId: number;
+
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
