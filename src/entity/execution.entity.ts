@@ -20,6 +20,9 @@ export class Execution {
   @Column({ name: 'session_id', nullable: true })
   sessionId: string;
 
+  @Column({ name: 'is_completed', default: false })
+  isCompleted: boolean;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

@@ -17,7 +17,7 @@ export class Moscha1704093736132 implements MigrationInterface {
       `CREATE TABLE "sessions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "address" character varying NOT NULL, "chain_id" character varying, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "expired_at" TIMESTAMP WITH TIME ZONE NOT NULL, CONSTRAINT "PK_3238ef96f18b355b671619111bc" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "executions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "session_id" uuid, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "PK_703e64e0ef651986191844b7b8b" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "executions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "session_id" uuid, "is_completed" boolean NOT NULL DEFAULT false, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "PK_703e64e0ef651986191844b7b8b" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "execution_items" ("id" SERIAL NOT NULL, "execution_id" uuid, "action_field_id" integer, "value" character varying NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "PK_24d5fbffcf7724ee0f424c74f2d" PRIMARY KEY ("id"))`,
