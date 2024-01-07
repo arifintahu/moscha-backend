@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Chain, Session } from '../entity';
 import { Repository } from 'typeorm';
 import * as dayjs from 'dayjs';
-import { CreateSessionObj } from './interfaces/session.interface';
 
 @Injectable()
 export class SessionsService {
@@ -15,7 +14,11 @@ export class SessionsService {
     private chainsRepository: Repository<Chain>,
   ) {}
 
-  public async create(session: Partial<CreateSessionObj>): Promise<Session> {
+  public async create(session: Partial<Session>): Promise<Session> {
+    if (!session.address || !session.chainId) {
+      throw new NotFoundException('NotFoundParams');
+    }
+
     const chain = await this.chainsRepository.findOneBy({
       id: session.chainId,
     });
@@ -25,7 +28,7 @@ export class SessionsService {
 
     return this.sessionsRepository.save({
       address: session.address,
-      chain: chain,
+      chainId: session.chainId,
       expiredAt: dayjs().add(1, 'hour').format(),
     });
   }
