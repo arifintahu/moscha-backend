@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
+import { CreateChatResponse } from './interfaces/chat.interface';
 
 @Controller('chats')
 export class ChatsController {
@@ -16,12 +17,12 @@ export class ChatsController {
   public async create(
     @Query('sessionId') sessionId: string,
     @Body() body: CreateChatDto,
-  ): Promise<{ message: string; action: Object }> {
+  ): Promise<CreateChatResponse> {
     const result = await this.chatsService.create(sessionId, body.message);
     if (!result.id) {
       throw new InternalServerErrorException('NotCreatedData');
     }
 
-    return { message: result.id, action: {} };
+    return result;
   }
 }

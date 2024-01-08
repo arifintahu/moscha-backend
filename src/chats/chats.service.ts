@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Session, Template } from '../entity';
 import { Repository } from 'typeorm';
 import * as Tokenizer from 'wink-tokenizer';
+import { CreateChatResponse } from './interfaces/chat.interface';
 
 @Injectable()
 export class ChatsService {
@@ -14,7 +15,13 @@ export class ChatsService {
     private templatesRepository: Repository<Template>,
   ) {}
 
-  public async create(sessionId: string, message: string): Promise<Session> {
+  public async create(
+    sessionId: string,
+    message: string,
+  ): Promise<CreateChatResponse> {
+    if (!sessionId || !message) {
+      throw new NotFoundException('NotFoundParams');
+    }
     const session = await this.sessionsRepository.findOneBy({
       id: sessionId,
     });
@@ -41,8 +48,10 @@ export class ChatsService {
     if (!template)
       [(template = templates.find((item) => item.keyword === 'default'))];
 
-    console.log(template);
-
-    return session;
+    return {
+      id: template.id,
+      message: template.text,
+      action: template.action,
+    };
   }
 }
