@@ -19,7 +19,7 @@ export class ChatsController {
     @Body() body: CreateChatDto,
   ): Promise<CreateChatResponse> {
     const result = await this.chatsService.create(sessionId, body.message);
-    if (!result.id) {
+    if (!result) {
       throw new InternalServerErrorException('NotCreatedData');
     }
 
