@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Session, Template } from '../entity';
+import { Action, ActionField, Session, Template } from '../entity';
 import { Repository } from 'typeorm';
 import * as Tokenizer from 'wink-tokenizer';
 import { CreateChatResponse } from './interfaces/chat.interface';
@@ -8,6 +8,12 @@ import { CreateChatResponse } from './interfaces/chat.interface';
 @Injectable()
 export class ChatsService {
   constructor(
+    @InjectRepository(Action)
+    private actionsRepository: Repository<Action>,
+
+    @InjectRepository(ActionField)
+    private actionFieldsRepository: Repository<ActionField>,
+
     @InjectRepository(Session)
     private sessionsRepository: Repository<Session>,
 
@@ -29,10 +35,12 @@ export class ChatsService {
       throw new NotFoundException('NotFoundSessionData');
     }
 
+    // tokenize
     const tokenizer = new Tokenizer();
     const tokens = tokenizer.tokenize(message);
     console.log(tokens);
 
+    // get template
     const templates = await this.templatesRepository.find();
     let template: Template | null = null;
 
@@ -47,6 +55,21 @@ export class ChatsService {
 
     if (!template)
       [(template = templates.find((item) => item.keyword === 'default'))];
+
+    // get action
+    let action: Action | null = null;
+    let actionFields: ActionField[] = [];
+    if (template.actionId) {
+      action = await this.actionsRepository.findOneBy({
+        id: template.actionId,
+      });
+    }
+
+    if (action) {
+      actionFields = await this.actionFieldsRepository.findBy({
+        actionId: action.id,
+      });
+    }
 
     return {
       id: template.id,
