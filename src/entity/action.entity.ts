@@ -13,6 +13,9 @@ export class Action {
   @Column()
   action: string;
 
+  @Column()
+  url: string;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

@@ -51,6 +51,7 @@ export class ChatsService {
     const response: CreateChatResponse = {
       id: null,
       message: null,
+      action: null,
       actionItems: [],
     };
 
@@ -117,6 +118,16 @@ export class ChatsService {
         });
         response.message = 'Ready to execute';
         response.actionItems = actionItems;
+
+        if (items.length) {
+          const action = await this.actionsRepository.findOneBy({
+            id: items[0].actionField.actionId,
+          });
+          response.action = {
+            name: action.action,
+            url: action.url,
+          };
+        }
       }
       return response;
     }

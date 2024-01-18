@@ -10,6 +10,9 @@ export class Chain {
   @PrimaryColumn()
   id: string;
 
+  @Column()
+  name: string;
+
   @Column({
     type: 'enum',
     enum: ChainNetwork,
@@ -22,6 +25,21 @@ export class Chain {
 
   @Column({ nullable: true })
   rest: string;
+
+  @Column({ nullable: true })
+  denom: string;
+
+  @Column({ name: 'minimal_denom', nullable: true })
+  minimalDenom: string;
+
+  @Column({ nullable: true })
+  decimals: number;
+
+  @Column({ nullable: true })
+  prefix: string;
+
+  @Column({ name: 'gas_fee', nullable: true })
+  gasFee: string;
 
   @CreateDateColumn({
     name: 'created_at',

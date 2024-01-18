@@ -4,6 +4,7 @@ const actions = [
   {
     id: 1,
     action: 'MsgTransfer',
+    url: '/cosmos.bank.v1beta1.MsgSend',
   },
 ];
 
@@ -13,7 +14,7 @@ export class Action1704093892409 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     for (const a of actions) {
       await queryRunner.query(
-        `INSERT INTO actions (id, action) VALUES (${a.id}, '${a.action}');`,
+        `INSERT INTO actions (id, action, url) VALUES (${a.id}, '${a.action}', '${a.url}');`,
       );
     }
   }
