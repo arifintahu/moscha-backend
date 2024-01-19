@@ -21,6 +21,11 @@ const templates = [
     text: '',
     actionId: 1,
   },
+  {
+    keyword: 'balance',
+    text: '',
+    actionId: 2,
+  },
 ];
 
 export class Template1704237255276 implements MigrationInterface {

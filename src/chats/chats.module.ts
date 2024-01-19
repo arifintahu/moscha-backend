@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   Action,
   ActionField,
+  Chain,
   Execution,
   ExecutionItem,
   Session,
@@ -16,6 +17,7 @@ import {
     TypeOrmModule.forFeature([
       Action,
       ActionField,
+      Chain,
       Execution,
       ExecutionItem,
       Session,

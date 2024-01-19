@@ -11,7 +11,7 @@ const chains = [
     minimalDenom: 'uatom',
     decimals: 6,
     prefix: 'cosmos',
-    gasFee: '0.005uatom',
+    gasFee: '0.05uatom',
   },
 ];
 

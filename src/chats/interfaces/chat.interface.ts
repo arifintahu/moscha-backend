@@ -12,3 +12,7 @@ export interface CreateChatResponse {
   action: Action | null;
   actionItems: ActionItem[];
 }
+export interface Balance {
+  denom: string;
+  amount: number;
+}

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   Action,
   ActionField,
+  Chain,
   Execution,
   ExecutionItem,
   Session,
@@ -10,7 +11,7 @@ import {
 } from '../entity';
 import { Repository } from 'typeorm';
 import * as Tokenizer from 'wink-tokenizer';
-import { CreateChatResponse } from './interfaces/chat.interface';
+import { Balance, CreateChatResponse } from './interfaces/chat.interface';
 
 @Injectable()
 export class ChatsService {
@@ -20,6 +21,9 @@ export class ChatsService {
 
     @InjectRepository(ActionField)
     private actionFieldsRepository: Repository<ActionField>,
+
+    @InjectRepository(Chain)
+    private chainsRepository: Repository<Chain>,
 
     @InjectRepository(Execution)
     private executionsRepository: Repository<Execution>,
@@ -165,7 +169,7 @@ export class ChatsService {
       });
     }
 
-    if (action && actionFields.length) {
+    if (action) {
       const { message } = await this.executeAction(
         session,
         action,
@@ -191,6 +195,8 @@ export class ChatsService {
           actionFields,
           tokens,
         );
+      case 'QueryBalance':
+        return await this.executeActionQueryBalance(session, action);
       default:
         return { message: 'Unknown action' };
     }
@@ -254,5 +260,43 @@ export class ChatsService {
     return {
       message: 'Amount added, please enter recipient address',
     };
+  }
+
+  async executeActionQueryBalance(
+    session: Session,
+    action: Action,
+  ): Promise<{ message: string }> {
+    try {
+      const chain = await this.chainsRepository.findOneBy({
+        id: session.chainId,
+      });
+      if (!chain) {
+        return {
+          message: 'Chain not found',
+        };
+      }
+      const queryPath = action.url.replace('{address}', session.address);
+      const response = await fetch(chain.rest + queryPath);
+      const result = await response.json();
+      const balances: Balance[] = result ? result.balances : [];
+      const nativeBalance = balances.find(
+        (value) => value.denom === chain.minimalDenom,
+      );
+      let amount = 0;
+      if (nativeBalance) {
+        amount =
+          Math.round((nativeBalance.amount * 1000) / 10 ** chain.decimals) /
+          1000;
+      }
+
+      return {
+        message: `Your balance is ${amount} ${chain.denom}`,
+      };
+    } catch (err) {
+      console.error(err);
+      return {
+        message: 'Something wrong in querying balance',
+      };
+    }
   }
 }
