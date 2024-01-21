@@ -11,6 +11,9 @@ export class Moscha1704093736132 implements MigrationInterface {
       `CREATE TABLE "action_fields" ("id" SERIAL NOT NULL, "action_id" integer, "field" character varying NOT NULL, "is_prompted" boolean NOT NULL DEFAULT false, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "PK_27cf53061bd4193e3461133730f" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
+      `CREATE TYPE "public"."chains_network_enum" AS ENUM('mainnet', 'testnet')`,
+    );
+    await queryRunner.query(
       `CREATE TABLE "chains" ("id" character varying NOT NULL, "name" character varying NOT NULL, "network" "public"."chains_network_enum" NOT NULL DEFAULT 'mainnet', "rpc" character varying, "rest" character varying, "denom" character varying, "minimal_denom" character varying, "decimals" integer, "prefix" character varying, "gas_fee" character varying, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "PK_f3c6ca7e7ad0f451e3b8f3dd378" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
@@ -69,6 +72,7 @@ export class Moscha1704093736132 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "executions"`);
     await queryRunner.query(`DROP TABLE "sessions"`);
     await queryRunner.query(`DROP TABLE "chains"`);
+    await queryRunner.query(`DROP TYPE "public"."chains_network_enum"`);
     await queryRunner.query(`DROP TABLE "action_fields"`);
     await queryRunner.query(`DROP TABLE "actions"`);
   }
